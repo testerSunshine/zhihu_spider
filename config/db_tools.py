@@ -65,8 +65,8 @@ class MysqlConn:
         topic_little_describe = self.conn.escape(topic_little_describe)
         topic_little_url = self.conn.escape(topic_little_url)
         topic_little_img_url = self.conn.escape(topic_little_img_url)
-        sql = """INSERT INTO zhihu_topicinfo (topic_name, topic_little_name, topic_little_describe, topic_little_url, topic_little_img_url, topic_create_time, topic_update_time)
-                 VALUES ( %s, %s, %s, %s, %s, %s, %s)""" % (topic_name, topic_little_name, topic_little_describe, topic_little_url, topic_little_img_url, self.l_time(), self.l_time())
+        sql = """INSERT INTO zhihu_topicinfo (topic_name, topic_little_name, topic_little_describe, topic_little_url, topic_little_img_url, topic_create_time, topic_update_time, topic_is_spider)
+                 VALUES ( %s, %s, %s, %s, %s, %s, %s, 0)""" % (topic_name, topic_little_name, topic_little_describe, topic_little_url, topic_little_img_url, self.l_time(), self.l_time())
         logger.log("即将插入sql: {}".format(sql))
         self.execute_m(sql=sql)
 
