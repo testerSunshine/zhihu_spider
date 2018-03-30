@@ -1,5 +1,6 @@
 # coding=utf-8
 import copy
+import datetime
 
 from config import logger
 from config.db_tools import MysqlConn
@@ -9,6 +10,7 @@ class ZHComments:
     def __init__(self, token):
         self.conn = MysqlConn()
         self.token = token
+        self.select_time = {}
 
     def comments_spider(self):
         """
@@ -16,14 +18,20 @@ class ZHComments:
         :return:
         """
         question_list = self.conn.select_for_table("zhihu_question", "question_is_spider=0", "id", "question_id")
+        self.select_time = {"now_time": datetime.datetime.now()}
+        if "now_time" in self.select_time and self.select_time["now_time"]:
+            if (datetime.datetime.now() - self.select_time["now_time"]).seconds/60 > 120:
+                question_list = self.conn.select_for_table("zhihu_question", "question_is_spider=0", "id", "question_id")
         self.get_comments(question_list)
+        self.conn.close_session()
 
     def get_comments(self, question_list):
         """
         爬取评论
         :return:
         """
-        for id, question_id in question_list:
+        for i in xrange(len(question_list)):
+            id, question_id = question_list[i]
             url = copy.deepcopy(self.token.url)
             while 1:
                 comments_result = self.par_url_by_comments(question_id, url)

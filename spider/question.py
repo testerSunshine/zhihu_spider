@@ -35,7 +35,7 @@ class ZHQuestion:
             t.start()
         for t in threadList:
             t.join()
-        # self.conn.close_session()
+        conn.close_session()
 
     def get_question(self, url_list, conn):
         """

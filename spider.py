@@ -51,5 +51,5 @@ def startComments():
 
 if __name__ == "__main__":
     # startSpider()
-    startQuestion()
-    # startComments()
+    # startQuestion()
+    startComments()
