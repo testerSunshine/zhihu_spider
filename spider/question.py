@@ -9,7 +9,6 @@ from config.db_tools import MysqlConn
 
 class ZHQuestion:
     def __init__(self, token):
-
         self.token = token
 
     def get_conn(self):
@@ -23,7 +22,7 @@ class ZHQuestion:
         conn = self.get_conn()
         url_list = conn.select_for_table("zhihu_topicinfo", "topic_is_spider=0", "id", "topic_little_url")
         conn.close_session()
-        size = len(url_list)/2 + 1
+        size = len(url_list)/3 + 1
         split_url_list = [url_list[i: i+size] for i in range(0, len(url_list), size)]
         threadList = []
         for _url_list in split_url_list:

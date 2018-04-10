@@ -19,7 +19,7 @@ class MysqlConn:
         self.cur = self.conn.cursor()
 
     def mysql_conn(self):
-        y = _get_yaml_local("config_spider.yaml")
+        y = _get_yaml_local("config_zhihu_remote.yaml")
         conn = pymysql.connect(
                 host=y["db"]["ip"],
                 port=y["db"]["port"],
@@ -43,6 +43,10 @@ class MysqlConn:
                 logger.log(e)
             except InternalError as e:
                 logger.log(e)
+            except pymysql.err.Error as e:
+                logger.log(e)
+                self.conn = self.mysql_conn()  # mysql 断开连接重连
+                self.execute_m(sql)
 
     def close_session(self):
         self.cur.close()
