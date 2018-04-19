@@ -164,4 +164,6 @@ class HTTPClient(object):
                 pass
             except socket.error:
                 pass
+            except KeyError:
+                pass
         return error_data
